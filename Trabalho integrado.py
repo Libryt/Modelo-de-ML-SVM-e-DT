@@ -8,6 +8,8 @@ from sklearn.model_selection import train_test_split, StratifiedShuffleSplit # L
 from sklearn.pipeline import Pipeline #Lib para o pipeline
 from sklearn.svm import SVC # Lib para o SVC
 
+#TODO Tirar pipeline do SVM
+
 # Leitura dos dados
 df = pd.read_csv('venda_por_ncm_e_estado.csv')
 df.columns = df.columns.str.strip()  # Remove espaços dos nomes das colunas

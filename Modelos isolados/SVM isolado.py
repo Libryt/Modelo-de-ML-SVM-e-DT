@@ -6,6 +6,8 @@ from sklearn.pipeline import Pipeline
 from sklearn.svm import SVC
 from sklearn.metrics import accuracy_score, classification_report
 
+#TODO Tirar pipeline do SVM
+
 # Leitura dos dados
 df = pd.read_csv('venda_por_ncm_e_estado.csv')
 df.columns = df.columns.str.strip()  # Remove espaços dos nomes das colunas
