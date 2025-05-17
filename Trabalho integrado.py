@@ -34,6 +34,7 @@ while True:
     print("\nMenu principal\nEscolha uma opção: \n1 - Árvore de Decisão\n2 - SVM\n3 - Encerrar programa")
     try:
         menu = int(input("Digite uma opção: "))
+        # Aqui vai a árvore de decisão
         if menu == 1:
             clf = tree.DecisionTreeClassifier()
             clf.fit(X_train, y_train)
@@ -44,7 +45,7 @@ while True:
                     menuDecisao = int(input("Digite uma opção: "))
                     if menuDecisao == 1:
                         y_pred = clf.predict(X_test)
-                        acc = accuracy_score(y_test, y_pred) * 100
+                        acc = accuracy_score(y_test, y_pred)
                         print(f"Precisão do modelo: {acc:.2f}%")
 
                     elif menuDecisao == 2:
@@ -129,7 +130,7 @@ while True:
                     if menuSVM == 1:
                         y_pred = pipeline.predict(X_test)
                         accuracy = accuracy_score(y_test, y_pred)
-                        print(f"Acurácia do modelo: {accuracy:.2f}")
+                        print(f"Acurácia do modelo: {accuracy:.2f}%")
                         print("\nRelatório de Classificação:")
                         print(classification_report(y_test, y_pred, target_names=le_produto.classes_, zero_division=0))
 
