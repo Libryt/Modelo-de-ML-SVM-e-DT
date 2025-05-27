@@ -15,13 +15,15 @@ df = pd.read_csv('venda_por_ncm_e_estado.csv')
 df.columns = df.columns.str.strip()  # Remove espaços dos nomes das colunas
 
 # Remove colunas inúteis
-df = df.drop(columns=['CFOP', 'NCM', 'ID utilização', 'Cod.Item', 'UF'])
-
+df = df.drop(columns=['CFOP', 'NCM', 'ID utilização','Utilização', 'Cod.Item', 'UF'])
+#df = df.drop('Produto', axis=1)
 # Remove linhas com dados faltantes nas colunas importantes
 df = df.dropna(subset=['Valor', 'ICMS', 'Produto'])
 
 # Define as features e o alvo
+
 X = df[['Valor', 'ICMS']]
+#TESTAR ESSE TAMBEM X = df.drop('Produto', axis=1)
 y = df['Produto']
 
 # Codifica o alvo (Produto)
@@ -54,7 +56,6 @@ while True:
                         plt.figure(figsize=(20, 10))
                         tree.plot_tree(
                             clf,
-                            max_depth=3,
                             feature_names=['Valor', 'ICMS'],
                             class_names=le_produto.classes_,
                             filled=True,
@@ -112,7 +113,7 @@ while True:
                 X = df[['Valor', 'ICMS']]
 
                 # Divisão treino/teste com balanceamento
-                splitter = StratifiedShuffleSplit(n_splits=1, test_size=0.3, random_state=42)
+                splitter = StratifiedShuffleSplit(n_splits=1, test_size=0.3, random_state=1)
                 for train_index, test_index in splitter.split(X, y_encoded):
                     X_train, X_test = X.iloc[train_index], X.iloc[test_index]
                     y_train, y_test = y_encoded[train_index], y_encoded[test_index]

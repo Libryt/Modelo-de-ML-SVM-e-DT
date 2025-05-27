@@ -1,0 +1,18 @@
+-Todos do grupo devem entregar
+-Ao menos 100 dados
+1-Pandas, preciso limpar os dados?
+2-Qual a coluna de saida de dados, qual a coluna de entrada de dados
+3- random state sempre em 1
+4-tirar códigos que professor nao ensinou.
+
+Desempenho de 70% para qualquer um deles(SVM ou Arvore)
+
+Opção 1-Árvore de decisao
+Opção 2-Svm(qual dos dois for melhor)
+Opção 3-Terminar programa
+
+Na arvore de decisão:
+Opção 1-Mostrar desempenho
+Opção 2-Mostrar árvore
+Opção 3-Fazer uma nova classificação
+Opção 4-Voltar
