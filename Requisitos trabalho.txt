@@ -4,6 +4,7 @@
 2-Qual a coluna de saida de dados, qual a coluna de entrada de dados
 3- random state sempre em 1
 4-tirar códigos que professor nao ensinou.
+5- usar get dummies(codigo de emprestimo do sava) caso coluna for categorica
 
 Desempenho de 70% para qualquer um deles(SVM ou Arvore)
 

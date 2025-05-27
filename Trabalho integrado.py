@@ -31,7 +31,7 @@ le_produto = LabelEncoder()
 y = le_produto.fit_transform(y)
 
 # Divide os dados em treino e teste
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=1)
 
 # Loop principal do menu
 while True:
@@ -74,7 +74,7 @@ while True:
                             produto_previsto = le_produto.inverse_transform([previsao[0]])[0]
                             print("Previsão do produto:", produto_previsto)
                         except ValueError:
-                            print("Entrada inválida. Digite números válidos.")
+                           print("Entrada inválida. Digite números válidos.")
 
                     elif menuDecisao == 4:
                         print("Voltando ao menu principal.")
@@ -84,7 +84,7 @@ while True:
                         print("Opção inválida. Tente novamente.")
                 except ValueError:
                     print("Entrada inválida. Digite apenas números inteiros.")
-        # AQUI VAI O SVM
+        # AQUI VAI O SVFM
         elif menu == 2:
             model = svm.SVC()
             model.fit(X_train, y_train)

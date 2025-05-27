@@ -21,7 +21,7 @@ df = df.drop(columns=['NCM', 'ID utilização', 'Cod.Item', 'UF'])
 df = df.dropna(subset=['Valor', 'ICMS', 'Produto'])
 
 # Define as features e o alvo
-X = df[['Valor', 'ICMS', 'CFOP']]
+X = df[['Valor', 'ICMS', 'CFO1P']]
 y = df['Produto']
 
 # Codifica o alvo (Produto)
@@ -29,7 +29,7 @@ le_produto = LabelEncoder()
 y = le_produto.fit_transform(y)
 
 # Divide os dados em treino e teste
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=1)
 
 # Treina o modelo
 clf = tree.DecisionTreeClassifier()
