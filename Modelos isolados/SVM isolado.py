@@ -1,12 +1,8 @@
 import pandas as pd
-import numpy as np
-from sklearn.model_selection import StratifiedShuffleSplit
+from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelEncoder, RobustScaler
-from sklearn.pipeline import Pipeline
 from sklearn.svm import SVC
 from sklearn.metrics import accuracy_score, classification_report
-
-#TODO Tirar pipeline do SVM
 
 # Leitura dos dados
 df = pd.read_csv('venda_por_ncm_e_estado.csv')
@@ -21,45 +17,57 @@ df = df.dropna(subset=['Valor', 'ICMS', 'Produto'])
 # Filtra produtos com pelo menos 30 ocorrências
 produto_counts = df['Produto'].value_counts()
 produtos_validos = produto_counts[produto_counts >= 30].index
-
 df = df[df['Produto'].isin(produtos_validos)]
 
-# Codifica o alvo
+# Codificação do alvo e definição das features
 le_produto = LabelEncoder()
-y_encoded = le_produto.fit_transform(df['Produto'])
+df['Produto_Encoded'] = le_produto.fit_transform(df['Produto']) # Criar coluna para y
 
-# Features e alvo
+# Definição dos dados de entrada X e saída y
 X = df[['Valor', 'ICMS']]
+y = df['Produto_Encoded'] # Usar a coluna codificada
 
-# Divisão treino/teste com balanceamento
-splitter = StratifiedShuffleSplit(n_splits=1, test_size=0.3, random_state=42)
-for train_index, test_index in splitter.split(X, y_encoded):
-    X_train, X_test = X.iloc[train_index], X.iloc[test_index]
-    y_train, y_test = y_encoded[train_index], y_encoded[test_index]
+# Divisão dos dados em treinamento e teste (semelhante ao primeiro script)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=1, stratify=y)
 
-# Pipeline com RobustScaler e SVC
-pipeline = Pipeline([
-    ('scaler', RobustScaler()),
-    ('svc', SVC(kernel='rbf', C=100, gamma=0.1, class_weight='balanced', random_state=42))
-])
+#Escalonamento dos dados
+scaler = RobustScaler()
+X_train_scaled = scaler.fit_transform(X_train)
+X_test_scaled = scaler.transform(X_test)
 
-# Treinamento
-pipeline.fit(X_train, y_train)
+# Aprendizado
+clf = SVC(kernel='rbf', C=100, gamma=0.1, class_weight='balanced', random_state=1)
+clf.fit(X_train_scaled, y_train)
 
-# Avaliação
-y_pred = pipeline.predict(X_test)
-accuracy = accuracy_score(y_test, y_pred)
-print(f"Acurácia do modelo: {accuracy:.2f}")
-print("\nRelatório de Classificação:")
-print(classification_report(y_test, y_pred, target_names=le_produto.classes_, zero_division=0))
+# Mostrar desempenho
 
-# Previsão com entrada do usuário
+y_prediction = clf.predict(X_test_scaled)
+
+print("Predição para o SVC: ", y_prediction)
+acurácia = accuracy_score(y_test, y_prediction)
+print(f"Acurácia: {acurácia:.2f}") 
+
+print("\nRelatório de Classificação Detalhado:")
+print(classification_report(y_test, y_prediction, target_names=le_produto.classes_, zero_division=0))
+
+# Previsão com entrada do usuário (adaptado para não usar pipeline)
 try:
     VALOR = float(input('Digite o valor (ex.: 3003.27): '))
     ICMS = float(input('Digite o valor do ICMS (ex.: 1522.23): '))
     entrada = pd.DataFrame([[VALOR, ICMS]], columns=['Valor', 'ICMS'])
-    predicao = pipeline.predict(entrada)
-    produto_previsto = le_produto.inverse_transform(predicao)[0]
+    
+    # Escalonar a entrada do usuário com o mesmo scaler usado no treino
+    entrada_scaled = scaler.transform(entrada)
+    
+    # Realizar a predição com o modelo treinado
+    predicao_codificada = clf.predict(entrada_scaled)
+    
+    # Decodificar a predição para o nome original do produto
+    produto_previsto = le_produto.inverse_transform(predicao_codificada)[0]
+    
     print(f"Previsão para o novo dado: {produto_previsto}")
+
 except ValueError:
     print("Entrada inválida. Certifique-se de digitar números válidos.")
+except Exception as e:
+    print(f"Ocorreu um erro durante a previsão: {e}")

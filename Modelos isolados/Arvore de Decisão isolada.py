@@ -21,7 +21,7 @@ df = df.drop(columns=['NCM', 'ID utilização', 'Cod.Item', 'UF'])
 df = df.dropna(subset=['Valor', 'ICMS', 'Produto'])
 
 # Define as features e o alvo
-X = df[['Valor', 'ICMS', 'CFO1P']]
+X = df[['Valor', 'ICMS']]
 y = df['Produto']
 
 # Codifica o alvo (Produto)
@@ -38,12 +38,11 @@ clf.fit(X_train, y_train)
 # Avalia o modelo e mostra acurácia
 y_pred = clf.predict(X_test)
 accuracy = accuracy_score(y_test, y_pred)
-print(f"\nPrecisão do modelo: {accuracy:.2f}%")
+print(f"\nPrecisão do modelo: {accuracy:.2f}")
 
 # Entrada do usuário para previsão
 VALOR = float(input('Digite o valor (ex.: 3003.27): '))
 ICMS = float(input('Digite o valor do ICMS (ex.: 1522.23): '))
-CFOP = int(input("Digite o núemero CFOP(5102 ou 5405)"))
 
 # Cria Dataframe para prever
 df_para_classificar = pd.DataFrame([[VALOR, ICMS]], columns=['Valor', 'ICMS'])
