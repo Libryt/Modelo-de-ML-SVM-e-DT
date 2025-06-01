@@ -15,15 +15,13 @@ df = pd.read_csv('venda_por_ncm_e_estado.csv')
 df.columns = df.columns.str.strip()  # Remove espaços dos nomes das colunas
 
 # Remove colunas inúteis
-df = df.drop(columns=['CFOP', 'NCM', 'ID utilização','Utilização', 'Cod.Item', 'UF'])
-#df = df.drop('Produto', axis=1)
+df = df.drop(columns=['CFOP', 'NCM', 'ID utilização','Utilização', 'Cod.Item', 'UF'], axis = 1)
 # Remove linhas com dados faltantes nas colunas importantes
 df = df.dropna(subset=['Valor', 'ICMS', 'Produto'])
 
 # Define as features e o alvo
 
 X = df[['Valor', 'ICMS']]
-#TESTAR ESSE TAMBEM X = df.drop('Produto', axis=1)
 y = df['Produto']
 
 # Codifica o alvo (Produto)
@@ -84,7 +82,7 @@ while True:
                         print("Opção inválida. Tente novamente.")
                 except ValueError:
                     print("Entrada inválida. Digite apenas números inteiros.")
-        # AQUI VAI O SVFM
+        # AQUI VAI O SVM
         elif menu == 2:
             model = svm.SVC()
             model.fit(X_train, y_train)
