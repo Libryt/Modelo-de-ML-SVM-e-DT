@@ -1,11 +1,9 @@
 import pandas as pd
-import numpy as np
 import matplotlib.pyplot as plt # Lib para mostrar árvore de decisão
 from sklearn import tree, svm # Lib para árvore e svm
 from sklearn.preprocessing import LabelEncoder, RobustScaler #Lib para codificar
 from sklearn.metrics import accuracy_score, classification_report #Lib para dar acurácia
-from sklearn.model_selection import train_test_split, StratifiedShuffleSplit # Lib para dividir
-from sklearn.pipeline import Pipeline #Lib para o pipeline
+from sklearn.model_selection import train_test_split # Lib para dividir
 from sklearn.svm import SVC # Lib para o SVC
 
 
@@ -140,18 +138,18 @@ while True:
                             VALOR = float(input('Digite o valor (ex.: 3003.27): '))
                             ICMS = float(input('Digite o valor do ICMS (ex.: 1522.23): '))
                             entrada = pd.DataFrame([[VALOR, ICMS]], columns=['Valor', 'ICMS'])
-                            
+
                             # Escalonar a entrada do usuário com o mesmo scaler usado no treino
                             entrada_scaled = scaler.transform(entrada)
-                            
+
                             # Realizar a predição com o modelo treinado
                             predicao_codificada = clf.predict(entrada_scaled)
-                            
+
                             # Decodificar a predição para o nome original do produto
                             produto_previsto = le_produto.inverse_transform(predicao_codificada)[0]
-                            
+
                             print(f"Previsão para o novo dado: {produto_previsto}")
-                        
+
                         except ValueError:
                             print("Entrada inválida. Certifique-se de digitar números válidos.")
                         except Exception as e:

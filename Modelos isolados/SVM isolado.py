@@ -50,7 +50,7 @@ print(f"Acurácia: {acurácia:.2f}")
 print("\nRelatório de Classificação Detalhado:")
 print(classification_report(y_test, y_prediction, target_names=le_produto.classes_, zero_division=0))
 
-# Previsão com entrada do usuário (adaptado para não usar pipeline)
+# Previsão com entrada do usuário
 try:
     VALOR = float(input('Digite o valor (ex.: 3003.27): '))
     ICMS = float(input('Digite o valor do ICMS (ex.: 1522.23): '))
